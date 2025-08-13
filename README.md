@@ -75,3 +75,100 @@ df = pd.read_csv("datasets/smart_home_cleaned.csv")
 print("Average energy consumption per hour for each home (top 5):")
 print(df.groupby("home_id")["energy_consumption_kWh"].mean().sort_values(ascending=False))
 ```
+#### Which season has the highest average energy consumption?
+```python
+import pandas as pd
+
+# Load the Cleaned Data
+df = pd.read_csv("datasets/smart_home_cleaned.csv")
+
+# Which season has the highest average energy consumption
+print("Season with highest average energy consumption:")
+print(df.groupby("season")["energy_consumption_kWh"].mean().idxmax())
+```
+#### What is the most frequently used appliance on weekends (Saturday and Sunday)?
+```python
+import pandas as pd
+
+# Load the Cleaned data
+df = pd.read_csv("datasets/smart_home_cleaned.csv")
+
+# Most frequent used appliances on weekend (Saturday or Sunday)
+weekend_df = df[df["day_of_week"].isin(["Saturday","Sunday"])]
+print("Most frequently used appliance on weekends")
+print(weekend_df["appliance"].mode()[0])
+```
+#### What is the trend of energy consumption over the months? (You can extract the month from the timestamp column).
+```python
+import pandas as pd
+
+# Load the Cleaned Data
+df = pd.read_csv("datasets/smart_home_cleaned.csv")
+
+# Convert the "timestamp" column to datetime objects
+df["timestamp"] = pd.to_datetime(df["timestamp"])
+
+# Trend of energy consumption over the months
+df["month"] = df["timestamp"].dt.month
+print("Trend of energy consumption over the months:")
+print(df.groupby("month")["energy_consumption_kWh"].mean().sort_index())
+```
+#### How does average appliance usage duration change throughout the day? (You can extract the hour from the timestamp column).
+```python
+import pandas as pd
+
+# Load the Cleaned Data
+df = pd.read_csv("datasets/smart_home_cleaned.csv")
+
+# Convert "timestamp" object to datetime
+df["timestamp"] = pd.to_datetime(df["timestamp"])
+ 
+# How does average appliance usage duration change throughout the day
+df["hour"] = df["timestamp"].dt.hour
+print("Average appliance usage duration throughout the day")
+print(df.groupby("hour")["usage_duration_minutes"].mean().sort_index())
+```
+#### What is the energy consumption on holidays versus non-holidays?
+```python
+import pandas as pd
+
+# Load the Cleaned Data
+df = pd.read_csv("datasets/smart_home_cleaned.csv")
+
+# Energy consumption on holidays versus non-holidays
+print("Average energy consumption on holidays(1) vs non-holidays(0)")
+print(df.groupby("holiday")["energy_consumption_kWh"].mean())
+```
+#### Which top 5 homes have the highest total energy consumption?
+```python
+import pandas as pd
+
+# Load the Cleaned Data
+df = pd.read_csv("datasets/smart_home_cleaned.csv")
+
+# Top 5 homes with the highest total energy consumption
+print("Top 5 homes with the highest total energy_consumption")
+print(df.groupby("home_id")["energy_consumption_kWh"].sum().nlargest(5))
+```
+#### How does occupancy status relate to the average temperature setting?
+```python
+import pandas as pd
+
+# Load the Cleaned Data
+df = pd.read_csv("datasets/smart_home_cleaned.csv")
+
+# How does occupancy status relate to the average temperature setting
+print("Average temprature setting by occupancy status")
+print(df.groupby("occupancy_status")["temperature_setting_C"].mean())
+```
+#### What is the distribution of appliance usage duration? (You could use a histogram for this, or just find the mean, median, and mode).
+```python
+import pandas as pd
+
+# Load the Cleaned Data
+df = pd.read_csv("datasets/smart_home_cleaned.csv")
+
+# Distribution of appliance usage duration
+print("Distribution (summary statistics) of appliance usage duration")
+print(df["usage_duration_minutes"].describe())
+```
